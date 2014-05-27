@@ -9,7 +9,7 @@ class LiveIdentity
                 :OFFLINE_MODE_ALLOWED,       0x00000001,
                 :NO_UI,                      0x00000002,
                 :SKIP_CONNECTION_CHECK,      0x00000004,
-                :IDCRL_RESERVED_1,           0x00000008,
+                :SET_EXTENDED_ERROR,         0x00000008,
                 :SET_INITIALIZATION_COOKIES, 0x00000010,
                 :UPDATE_FLAG_ALL_BIT,        0x0000001F))
 
@@ -32,6 +32,7 @@ class LiveIdentity
                 :SERVICE_TOKEN_TYPE_COMPACT_WEBSSO,        0x00000004,
                 :SERVICE_TOKEN_TYPE_X509V3,                0x00000008,
                 :SERVICE_TOKEN_CERT_IN_MEMORY_PRIVATE_KEY, 0x00000010,
+                :SERVICE_TOKEN_TYPE_ANY,                   0x000000FF,
                 :SERVICE_TOKEN_FROM_CACHE,                 0x00010000))
 
                 base.const_set(:IDCRL_OPTION_ID, base.enum(
@@ -61,6 +62,9 @@ class LiveIdentity
 
                 base.const_set(:LOGON_FLAG, base.enum(
                 :LOGONIDENTITY_DEFAULT,                  0x0000,
+                :LOGONIDENTITY_ALLOW_OFFLINE,            0x0001,
+                :LOGONIDENTITY_FORCE_OFFLINE,            0x0002,
+                :LOGONIDENTITY_CREATE_OFFLINE_HASH,      0x0004,
                 :LOGONIDENTITY_ALLOW_PERSISTENT_COOKIES, 0x0008,
                 :LOGONIDENTITY_USE_EID_AUTH,             0x0010,
                 :LOGONIDENTITY_USE_LINKED_ACCOUNTS,      0x0020,
@@ -69,7 +73,8 @@ class LiveIdentity
                 :LOGONIDENTITY_AUTO_PARTNER_REDIRECT,    0x0100,
                 :LOGONIDENTITY_IGNORE_CACHED_TOKENS,     0x0200,
                 :LOGONIDENTITY_RESERVED_1,               0x0400,
-                :LOGONIDENTITY_ALL_BIT,                  0x07FF))
+                :LOGONIDENTITY_ALL_BIT,                  0x07FF,
+                :LOGONIDENTITY_USE_SINGLEUSECODE,        0x0800))
 
                 base.const_set(:IDCRL_ERROR_CATEGORY, base.enum(
                 :IDCRL_REQUEST_BUILD_ERROR,          0x00000001,
@@ -103,8 +108,8 @@ class LiveIdentity
                 :IDCRL_USER_DEVICE_APP,    1))
 
                 base.const_set(:CERTREQUESTFLAGS, base.enum(
-                # CERT_FROM_CACHE = 0xUknown
-                ))
+                :CERT_FROM_CACHE,  0x00010000,
+                :CERT_FROM_SERVER, 0x00020000))
 
                 base.const_set(:IDENTITY_FLAG, base.enum(
                 :IDENTITY_SHARE_ALL,                 0x000000FF,
