@@ -77,6 +77,7 @@ class LiveIdentity
                 :LOGONIDENTITY_USE_SINGLEUSECODE,        0x0800))
 
                 base.const_set(:IDCRL_ERROR_CATEGORY, base.enum(
+                :IDCRL_UNKNOWN_ERROR_CATEGORY,       0x00000000,
                 :IDCRL_REQUEST_BUILD_ERROR,          0x00000001,
                 :IDCRL_REQUEST_SEND_ERROR,           0x00000002,
                 :IDCRL_RESPONSE_RECEIVE_ERROR,       0x00000003,
