@@ -3,6 +3,8 @@ class LiveIdentity
         module HRESULT
             PP_E_CRL_NOT_INITIALIZED                                = 0x80048008
             PPCRL_NO_SESSION_KEY                                    = 0x8004800E
+            # INVALID_MEMORY_POINTER ?                              = 0x8004801E
+            # INVALID_REQUEST_FLAGS ?                               = 0x80048031
             PPCRL_S_ALREADY_INITIALIZED                             = 0x00048044
             PPCRL_S_STILL_INUSE                                     = 0x00048045
             PP_E_CRL_REG_OPEN_FAILED                                = 0x80048251
@@ -64,13 +66,16 @@ class LiveIdentity
             PPCRL_E_SQM_WAIT_ABANDONED                              = 0x80048437
             PPCRL_E_SQM_WAIT_TIMEOUT                                = 0x80048438
             PPCRL_E_SQM_INTERNET_TIMEOUT                            = 0x80048439
-            PPCRL_HRESULT_BASE_SUCCESS                              = 0x00048800
-            PPCRL_HRESULT_BASE_ERROR                                = 0x80048800
+            module PPCRL_BASE
+                SUCCESS                                             = 0x00048800
+                ERROR                                               = 0x80048800
+            end
             PPCRL_AUTHSTATE_E_UNAUTHENTICATED                       = 0x80048800
             PPCRL_AUTHSTATE_E_EXPIRED                               = 0x80048801
             PPCRL_AUTHSTATE_S_AUTHENTICATED_OFFLINE                 = 0x00048802
             PPCRL_AUTHSTATE_S_AUTHENTICATED_PASSWORD                = 0x00048803
             PPCRL_AUTHSTATE_S_AUTHENTICATED_PARTNER                 = 0x00048804
+            # PPCRL_AUTHREQUIRED_E_ WHAT?                           = 0x00048805
             PPCRL_AUTHREQUIRED_E_PASSWORD                           = 0x80048810
             PPCRL_AUTHREQUIRED_E_CERTIFICATE                        = 0x80048813
             PPCRL_AUTHREQUIRED_E_UNKNOWN                            = 0x80048814
@@ -105,7 +110,7 @@ class LiveIdentity
             PPCRL_REQUEST_S_IO_PENDING                              = 0x00048847
             PPCRL_REQUEST_E_NO_NETWORK                              = 0x80048848
             PPCRL_REQUEST_E_UNKNOWN                                 = 0x80048849
-            PPCRL_REQUESTPARAMS_MISSING                             = 0x80048852
+            PPCRL_REQUESTPARAMS_MISSING                             = 0x80048851 # ???
             PPCRL_REQUEST_E_WRONG_DA                                = 0x80048852
             PPCRL_REQUEST_E_KID_HAS_NO_CONSENT                      = 0x80048853
             PPCRL_REQUEST_E_RSTR_MISSING_REFERENCE_URI              = 0x80048854
