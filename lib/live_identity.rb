@@ -3,24 +3,6 @@ require 'win_common'
 require_relative 'live_identity/version'
 require_relative 'live_identity/idcrl'
 
-def getStringLength(data)
-    length = 0
-    count = 0
-    offset = 0
-    previous = nil
-    while count < 2
-        data.get_bytes(offset, 100).each_byte do |byte|
-            length = length + 1
-            count = count + 1 if byte.zero? and previous.zero?
-            previous = byte
-            return length - 2 if count >= 2
-        end
-        offset += 100
-        break if offset >= 10000
-    end
-    length
-end
-
 class LiveIdentity
     class LiveIdentityError < WinCommon::Errors::HRESULTError; end
 
@@ -43,11 +25,14 @@ class LiveIdentity
                 option[:dwId] = id
                 option[:pValue] = FFI::MemoryPointer.new(:pointer)
                 if value.is_a?(String)
-                    data = [value.encode('UTF-16LE')].pack('a*xx')
+                    data = StringToWSTR(value)
                     option[:pValue].write_string(data)
                     option[:cbValue] = data.bytesize
+                elsif value.is_a?(Fixnum)
+                    option[:pValue].write_int(data)
+                    option[:cbValue] = 4
                 else
-                    # TODO
+                    raise "Uknown value type #{value.inspect}"
                 end
                 i += 1
             end
@@ -70,14 +55,13 @@ class LiveIdentity
         attr_reader :hIdentity
         def initialize(memberName, flags)
             @hIdentity = nil
-            wszMemberName = [memberName.encode('UTF-16LE')].pack('a*xx')
+            wszMemberName = StringToWSTR(memberName)
             dwflags = flags
-
-            pihIdentity = FFI::MemoryPointer.new(:pointer)
+            pihIdentity = FFI::MemoryPointer.new(:PassportIdentityHandlePointer)
             hr = IDCRL.CreateIdentityHandle(wszMemberName, dwflags, pihIdentity)
             raise LiveIdentityError.new(hr) if LiveIdentity::IsError?(hr)
             @hIdentity = pihIdentity.read_ulong
-            ObjectSpace.define_finalizer( self, self.class.finalize(@hIdentity) )
+            ObjectSpace.define_finalizer(self, self.class.finalize(@hIdentity))
         end
 
         def self.finalize(hIdentity)
@@ -89,18 +73,19 @@ class LiveIdentity
 
         def SetProperty(property, value)
             ipProperty = property
-            wszPropertyValue = [value.encode('UTF-16LE')].pack('a*xx')
+            wszPropertyValue = StringToWSTR(value)
             hr = IDCRL.SetIdentityProperty(@hIdentity, ipProperty, wszPropertyValue)
             raise LiveIdentityError.new(hr) if LiveIdentity::IsError?(hr)
         end
 
         def GetPropertyByName(name)
-            wszPropertyName = [name.encode('UTF-16LE')].pack('a*xx')
+            wszPropertyName = StringToWSTR(name)
             pwszPropertyValue = FFI::MemoryPointer.new(:pointer)
             hr = IDCRL.GetIdentityPropertyByName(@hIdentity, wszPropertyName, pwszPropertyValue)
             raise LiveIdentityError.new(hr) if LiveIdentity::IsError?(hr)
-            pwszPropertyValue = pwszPropertyValue.read_pointer.read_bytes(getStringLength(pwszPropertyValue.read_pointer))
-            pwszPropertyValue.force_encoding('UTF-16LE').encode('UTF-8')
+            propertyValue = read_wide_string(pwszPropertyValue.read_pointer)
+            LiveIdentity::FreeMemory(pwszPropertyValue.read_pointer)
+            propertyValue
         end
 
         def SetCredential(type, value)
@@ -147,8 +132,8 @@ class LiveIdentity
                 @SessionKey = nil
 
                 hIdentity = identity.hIdentity
-                szServiceTarget = [target.to_s.encode('UTF-16LE')].pack('a*xx')
-                szServicePolicy = [policy.to_s.encode('UTF-16LE')].pack('a*xx')
+                szServiceTarget = StringToWSTR(target.to_s)
+                szServicePolicy = StringToWSTR(policy.to_s)
                 dwTokenRequestFlags = flags
 
                 szToken = FFI::MemoryPointer.new(:pointer)
@@ -162,8 +147,7 @@ class LiveIdentity
 
                 hr = IDCRL.AuthIdentityToService(hIdentity, szServiceTarget, szServicePolicy, dwTokenRequestFlags, szToken, pdwResultFlags, ppbSessionKey, pcbSessionKeyLength)
                 raise LiveIdentityError.new(hr) if LiveIdentity::IsError?(hr)
-                szToken = szToken.read_pointer.read_bytes(getStringLength(szToken.read_pointer))
-                @Token = szToken.force_encoding('UTF-16LE').encode('UTF-8')
+                @Token = read_wide_string(szToken.read_pointer)
             end
         end
     end
