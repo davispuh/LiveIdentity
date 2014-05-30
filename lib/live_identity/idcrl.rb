@@ -76,7 +76,7 @@ class LiveIdentity
         #attach_function :GetPreferredAuthUIContextSize,           [ :PassportIdentityHandle, :PSIZE ], :HRESULT
         #attach_function :MoveAuthUIContext,                       [ :PassportUIAuthContextHandle, POINT, SIZE ], :HRESULT
         #attach_function :DestroyPassportAuthUIContext,            [ :PassportUIAuthContextHandle ], :HRESULT
-        attach_function :AuthIdentityToService,                   [ :PassportIdentityHandle, :LPCWSTR, :LPCWSTR, SERVICETOKENFLAGS, :PLPWSTR, :PDWORD, :PPBYTE, :PDWORD ], :HRESULT
+        attach_function :AuthIdentityToService,                   [ :PassportIdentityHandle, :LPCWSTR, :LPCWSTR, SERVICETOKENFLAGS, :PLPWSTR, :PDWORD, :PLPWSTR, :PDWORD ], :HRESULT
         attach_function :PersistCredential,                       [ :PassportIdentityHandle, :LPCWSTR ], :HRESULT
         attach_function :RemovePersistedCredential,               [ :PassportIdentityHandle, :LPCWSTR ], :HRESULT
         attach_function :EnumIdentitiesWithCachedCredentials,     [ :LPCWSTR, :PassportEnumIdentitiesHandlePointer ], :HRESULT
