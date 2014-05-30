@@ -234,12 +234,62 @@ class LiveIdentity
                 end
 
                 def SHA1PostData
-                    @SHA1PostData ||= read_wide_string(self[:szPostData])
+                    @SHA1PostData ||= read_wide_string(self[:szSHA1PostData])
                 end
 
                 def SHA1PostData= (sha1PostData)
-                    @SHA1PostData = sha1PostData
+                    @SHA1PostData         = sha1PostData
                     self[:szSHA1PostData] = StringToWSTR(sha1PostData)
+                end
+            end
+
+            class AuthState < FFI::Struct
+                layout({
+                    :szToken            => :LPWSTR,
+                    :dwResultFlags      => SERVICETOKENFLAGS,
+                    :pbSessionKey       => :LPWSTR,
+                    :dwSessionKeyLength => :DWORD
+                })
+
+                def Token
+                    @Token ||= read_wide_string(self[:szToken]) unless self[:szToken].null?
+                end
+
+                def Token= (token)
+                    @Token = token
+                    self[:szToken] = StringToWSTR(token)
+                end
+
+                def ResultFlags
+                    self[:dwResultFlags]
+                end
+
+                def ResultFlags= (resultFlags)
+                    self[:dwResultFlags] = resultFlags
+                end
+
+                def SessionKey
+                    @SessionKey ||= read_wide_string(self[:pbSessionKey]) unless self[:pbSessionKey].null?
+                end
+
+                def SessionKey= (sessionKey)
+                    @SessionKey         = sessionKey
+                    self[:pbSessionKey] = StringToWSTR(sessionKey)
+                end
+
+                def SessionKeyLength
+                    self[:dwSessionKeyLength]
+                end
+
+                def SessionKeyLength= (sessionKeyLength)
+                    self[:dwSessionKeyLength] = sessionKeyLength
+                end
+
+                def to_s
+                    "Token:            #{Token()}\n" +
+                    "ResultFlags:      #{ResultFlags()}\n" +
+                    "SessionKey:       #{SessionKey()}\n" +
+                    "SessionKeyLength: #{SessionKeyLength()}"
                 end
             end
 
