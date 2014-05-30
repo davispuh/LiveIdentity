@@ -26,11 +26,13 @@ class LiveIdentity
                 :WLIDUI_ALL_BIT,               0x03FF))
 
                 base.const_set(:SERVICETOKENFLAGS, base.enum(
+                :SERVICE_TOKEN_REQUEST_TYPE_NONE,          0x00000000,
                 :SERVICE_TOKEN_TYPE_LEGACY_PASSPORT,       0x00000001,
                 :SERVICE_TOKEN_TYPE_WEBSSO,                0x00000002,
                 :SERVICE_TOKEN_TYPE_SAML,                  0x00000002,
                 :SERVICE_TOKEN_TYPE_COMPACT_WEBSSO,        0x00000004,
                 :SERVICE_TOKEN_TYPE_X509V3,                0x00000008,
+                :SERVICE_TOKEN_REQUEST_TYPE_X509V3,        0x00000008,
                 :SERVICE_TOKEN_CERT_IN_MEMORY_PRIVATE_KEY, 0x00000010,
                 :SERVICE_TOKEN_TYPE_ANY,                   0x000000FF,
                 :SERVICE_TOKEN_FROM_CACHE,                 0x00010000))
@@ -86,7 +88,8 @@ class LiveIdentity
                 :IDCRL_RESPONSE_SIG_DECRYPT_ERROR,   0x00000006,
                 :IDCRL_RESPONSE_PARSE_HEADER_ERROR,  0x00000007,
                 :IDCRL_RESPONSE_PARSE_TOKEN_ERROR,   0x00000008,
-                :IDCRL_RESPONSE_PUTCERT_ERROR,       0x00000009))
+                :IDCRL_RESPONSE_PUTCERT_ERROR,       0x00000009,
+                :IDCRL_UNKNOWN_ERROR_CATEGORY2,      0x0000000a))
 
                 base.const_set(:PASSPORTIDENTITYPROPERTY, base.enum(
                 :IDENTITY_MEMBER_NAME, 1,
@@ -124,10 +127,6 @@ class LiveIdentity
                 :IDCRL_WEBAUTH_NONE,       0,
                 :IDCRL_WEBAUTH_REAUTH,     1,
                 :IDCRL_WEBAUTH_PERSISTENT, 2))
-
-                base.const_set(:SERVICETOKEN_REQUEST_FLAGS, base.enum(
-                :SERVICE_TOKEN_REQUEST_TYPE_NONE,   0x00,
-                :SERVICE_TOKEN_REQUEST_TYPE_X509V3, 0x08))
 
             end
         end
