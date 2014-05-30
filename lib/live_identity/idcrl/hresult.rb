@@ -1,6 +1,7 @@
 class LiveIdentity
     module IDCRL
         module HRESULT
+            # INVALID_STS_REQUEST ?                                 = 0x80045C01
             PP_E_CRL_NOT_INITIALIZED                                = 0x80048008
             PPCRL_NO_SESSION_KEY                                    = 0x8004800E
             # INVALID_MEMORY_POINTER ?                              = 0x8004801E
@@ -75,7 +76,9 @@ class LiveIdentity
             PPCRL_AUTHSTATE_S_AUTHENTICATED_OFFLINE                 = 0x00048802
             PPCRL_AUTHSTATE_S_AUTHENTICATED_PASSWORD                = 0x00048803
             PPCRL_AUTHSTATE_S_AUTHENTICATED_PARTNER                 = 0x00048804
-            # PPCRL_AUTHREQUIRED_E_ WHAT?                           = 0x00048805
+            # PPCRL_AUTHREQUIRED_S_ WHAT?                           = 0x00048805
+            # PPCRL_AUTHREQUIRED_S_ WHAT?                           = 0x00048806
+            # PPCRL_AUTHREQUIRED_S_ WHAT?                           = 0x00048807
             PPCRL_AUTHREQUIRED_E_PASSWORD                           = 0x80048810
             PPCRL_AUTHREQUIRED_E_CERTIFICATE                        = 0x80048813
             PPCRL_AUTHREQUIRED_E_UNKNOWN                            = 0x80048814
