@@ -30,7 +30,7 @@ def StringToWSTR(str, encoding = 'UTF-16LE')
 end
 
 def read_wide_string(data, encoding = 'UTF-16LE')
-    data.read_bytes(getStringLength(data)).force_encoding(encoding)
+    data.read_bytes(getStringLength(data)).force_encoding(encoding).encode('UTF-8')
 end
 
 module WinCommon::Errors::HRESULT
