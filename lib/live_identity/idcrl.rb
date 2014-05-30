@@ -20,7 +20,7 @@ def getStringLength(data)
             return length - 2 if count >= 2
         end
         offset += 100
-        break if offset >= 10000
+        break if offset >= 100000
     end
     length
 end
