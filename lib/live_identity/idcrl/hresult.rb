@@ -5,6 +5,7 @@ class LiveIdentity
             PP_E_CRL_NOT_INITIALIZED                                = 0x80048008
             PPCRL_NO_SESSION_KEY                                    = 0x8004800E
             # INVALID_MEMORY_POINTER ?                              = 0x8004801E
+            # INVALID_ ???                                          = 0x8004802C
             # INVALID_REQUEST_FLAGS ?                               = 0x80048031
             PPCRL_S_ALREADY_INITIALIZED                             = 0x00048044
             PPCRL_S_STILL_INUSE                                     = 0x00048045
