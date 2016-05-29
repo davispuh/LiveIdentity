@@ -71,7 +71,6 @@ class LiveIdentity
                     :wszCobrandingText     => :LPWSTR,
                     :wszAppName            => :LPWSTR,
                     :wszSignupText         => :LPWSTR,
-                    :wszSignupText         => :LPWSTR,
                     :wszCobrandingLogoPath => :LPWSTR,
                     :wszHeaderBgImage      => :LPWSTR,
                     :dwBgColor             => :DWORD,
