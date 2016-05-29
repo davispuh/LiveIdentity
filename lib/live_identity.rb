@@ -57,7 +57,12 @@ class LiveIdentity
         raise errorText
     end
 
+    def self.isAvailable?
+        defined?(IDCRL.InitializeEx)
+    end
+
     def initialize(guid, version, flags, options)
+        raise 'IDCRL isn\'t available!' unless LiveIdentity::isAvailable?
         guidClientApplication = IDCRL::GUID.new
         guidClientApplication.from_str(guid)
         lPPCRLVersion = version
