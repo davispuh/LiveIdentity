@@ -580,13 +580,15 @@ class LiveIdentity
         end
 
         class Service
-            attr_reader :Token
-            attr_reader :ResultFlags
-            attr_reader :SessionKey
-            def initialize(authState)
-                @Token = authState.Token()
-                @ResultFlags = authState.ResultFlags()
-                @SessionKey = authState.SessionKey()
+            attr_accessor :Token
+            attr_accessor :ResultFlags
+            attr_accessor :SessionKey
+            def initialize(authState = nil)
+                if authState
+                    @Token = authState.Token()
+                    @ResultFlags = authState.ResultFlags()
+                    @SessionKey = authState.SessionKey()
+                end
             end
         end
     end
